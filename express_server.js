@@ -9,9 +9,10 @@ const generateRandomString = function() {
 	const stringLength = 6;
 	let randomString = '';
 	for (let i = 0; i < stringLength; i++) {
-		let randomNum = Math.floor(Math.random() * chars.length);
-		randomString += alphaNumeric.substring(randomNum,randomNum+1);
-	}
+		let randomNum = Math.floor(Math.random() * alphaNumeric.length);
+		randomString += alphaNumeric.substring(randomNum, randomNum + 1);
+  }
+  return randomString;
 }
 
 const urlDatabase = {
@@ -29,7 +30,9 @@ app.get("/urls", (req, res) => {
 
 app.post("/urls", (req, res) => {
   console.log(req.body);  // Log the POST request body to the console
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  let shortURL = generateRandomString();
+  urlDatabase[shortURL] = req.body["longURL"]
+  res.redirect("/urls/" + shortURL);
 });
 
 app.get("/", (req, res) => {
