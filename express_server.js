@@ -9,9 +9,17 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+
 app.get("/urls", (req, res) => {
   let templateVars = { urls: urlDatabase };
   res.render("urls_index", templateVars);
+});
+
+app.post("/urls", (req, res) => {
+  console.log(req.body);  // Log the POST request body to the console
+  res.send("Ok");         // Respond with 'Ok' (we will replace this)
 });
 
 app.get("/", (req, res) => {
