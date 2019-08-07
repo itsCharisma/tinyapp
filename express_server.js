@@ -1,8 +1,8 @@
-const express = require("express");
+const express = require("express"); // requiring the express modules
 const app = express();
-const PORT = 8080; // default port 8080
+const PORT = 8080; // broadcasting on port 8080
 
-app.set("view engine", "ejs");
+app.set("view engine", "ejs"); //templating engine
 
 const generateRandomString = function() {
   const alphaNumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
