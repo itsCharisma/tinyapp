@@ -46,7 +46,6 @@ app.post("/urls/:shortURL/delete", (req, res) => {
   res.redirect("/urls")
 });
 
-
 app.get("/", (req, res) => {
   res.send("Hello!");
 });
