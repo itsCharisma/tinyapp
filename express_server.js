@@ -1,8 +1,11 @@
 const express = require("express"); // requiring the express modules
 const app = express();
 const PORT = 8080; // broadcasting on port 8080
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.set("view engine", "ejs"); //templating engine
+
 
 const generateRandomString = function() {
   const alphaNumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
@@ -20,12 +23,9 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-const bodyParser = require("body-parser");
-app.use(bodyParser.urlencoded({extended: true}));
-
-app.get("/urls", (req, res) => {
+app.get("/urls", (req, res) => { 
   let templateVars = { urls: urlDatabase };
-  res.render("urls_index", templateVars);
+  res.render("urls_index", templateVars); //get request
 });
 
 app.post("/urls", (req, res) => {
@@ -40,6 +40,12 @@ app.get("/u/:shortURL", (req, res) => {
    const longURL = urlDatabase[shortURL];
   res.redirect(longURL);
 });
+
+app.post("/urls/:shortURL/delete", (req, res) => {
+  delete urlDatabase[req.params.shortURL];
+  res.redirect("/urls")
+});
+
 
 app.get("/", (req, res) => {
   res.send("Hello!");
