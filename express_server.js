@@ -36,7 +36,16 @@ const users = {
 //     email: "user2@example.com", 
 //     password: "dishwasher-funk"
 //   }
-}
+};
+
+const checkEmail = function (emailCheck, objCheck) {
+  for (let userID in objCheck) {
+    if (emailCheck === objCheck[userID]["email"]) {
+      return true;
+    }
+  }
+  return false;
+};
 
 app.get("/urls", (req, res) => { 
   let templateVars = { urls: urlDatabase, username: req.cookies["username"]};
@@ -78,6 +87,14 @@ app.get("/register", (req, res) => {
 
 // //CREATE A REGISTRATION HANDLE ***********************************************
 app.post("/register", (req, res) => {
+  if (!req.body.email || !req.body.password) {
+    res.status(400);
+    return res.send('400 Bad Request');
+  }
+  if (checkEmail(req.body.email, users)) {
+    res.status(400);
+    return res.send('Email already registered');
+  }
   let newUserID = generateRandomString();
   users[newUserID] = {};
   users[newUserID].id = newUserID;
@@ -86,7 +103,7 @@ app.post("/register", (req, res) => {
   res.cookie('user_id', newUserID);
   // console.log(users);
   res.redirect("/urls");
-})
+});
 
 app.get("/", (req, res) => {
   res.send("Hello!");
