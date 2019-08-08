@@ -77,9 +77,16 @@ app.get("/register", (req, res) => {
 });
 
 // //CREATE A REGISTRATION HANDLE ***********************************************
-// app.post("/register", (req, res) => {
-//   res. 
-// })
+app.post("/register", (req, res) => {
+  let newUserID = generateRandomString();
+  users[newUserID] = {};
+  users[newUserID].id = newUserID;
+  users[newUserID].email = req.body["email"];
+  users[newUserID].password = req.body["password"];
+  res.cookie('user_id', newUserID);
+  // console.log(users);
+  res.redirect("/urls");
+})
 
 app.get("/", (req, res) => {
   res.send("Hello!");
