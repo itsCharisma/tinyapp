@@ -85,7 +85,8 @@ app.get("/register", (req, res) => {
   res.render("urls_register", templateVars)
 });
 
-// //CREATE A REGISTRATION HANDLE ***********************************************
+//Passing the user Object to the _header
+
 app.post("/register", (req, res) => {
   if (!req.body.email || !req.body.password) {
     res.status(400);
