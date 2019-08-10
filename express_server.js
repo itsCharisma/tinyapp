@@ -96,13 +96,16 @@ app.get("/login", (req, res) => {
   let templateVars = { user: req.user };
   res.render("urls_login", templateVars);
 });
+
 app.post("/login", (req, res) => {
   if (!req.body.email || !req.body.password) {
     res.status(400);
     return res.send('400 Bad Request');
   }
   let user = checkEmail(req.body["email"], users)
-  if (user && user.password === req.body["password"]) {
+  if (user && bcrypt.compareSync(req.body["password"], user.password)) {
+    //console.log("password")
+    //console.log(user.password)
     res.cookie('user_id', user.id);
     res.redirect("/urls");
   } else {
@@ -133,7 +136,7 @@ app.post("/register", (req, res) => {
   users[newUserID] = {};
   users[newUserID].id = newUserID;
   users[newUserID].email = req.body["email"];
-  users[newUserID].password = req.body["password"];
+  users[newUserID].password = bcrypt.hashSync(req.body["password"], 10);
   res.cookie('user_id', newUserID);
   res.redirect("/urls");
 });
